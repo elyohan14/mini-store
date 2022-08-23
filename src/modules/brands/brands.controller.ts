@@ -10,6 +10,7 @@ import {
 import { BrandsService } from './brands.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { Brand } from './schemas/brand.schema';
+import { ParseObjectIdPipe } from '../../common/parse-objectid.pipe';
 
 @Controller('brands')
 export class BrandsController {
@@ -21,8 +22,7 @@ export class BrandsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Brand> {
-    console.log(typeof id);
+  findOne(@Param('id', ParseObjectIdPipe) id: string): Promise<Brand> {
     return this.brandsService.findOne(id);
   }
 
@@ -36,13 +36,16 @@ export class BrandsController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() brand: any): object {
+  update(
+    @Param('id', ParseObjectIdPipe) id: string,
+    @Body() brand: any,
+  ): object {
     this.brandsService.update(id, brand);
     return { message: `This action updates a #${id} brand` };
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): object {
+  remove(@Param('id', ParseObjectIdPipe) id: string): object {
     this.brandsService.delete(id);
     return { message: `This action removes a #${id} brand` };
   }
