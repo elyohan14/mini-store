@@ -1,8 +1,9 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, MinLength, MaxLength } from 'class-validator';
 
 export class CreateBrandDto {
-  // Validates for a non-empty string
   @IsString()
   @IsNotEmpty()
+  @MinLength(2)
+  @MaxLength(20)
   readonly name: string;
 }

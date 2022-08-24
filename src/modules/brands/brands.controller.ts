@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { BrandsService } from './brands.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
+import { UpdateBrandDto } from './dto/update-brand.dto';
 import { Brand } from './schemas/brand.schema';
 import { ParseObjectIdPipe } from '../../common/parse-objectid.pipe';
 
@@ -27,20 +28,20 @@ export class BrandsController {
   }
 
   @Post()
-  async create(@Body() brand: CreateBrandDto): Promise<object> {
-    this.brandsService.create(brand);
+  async create(@Body() payload: CreateBrandDto): Promise<object> {
+    this.brandsService.create(payload);
     return {
       message: 'This action adds a new brand',
-      brand,
+      payload,
     };
   }
 
   @Put(':id')
   update(
     @Param('id', ParseObjectIdPipe) id: string,
-    @Body() brand: any,
+    @Body() payload: UpdateBrandDto,
   ): object {
-    this.brandsService.update(id, brand);
+    this.brandsService.update(id, payload);
     return { message: `This action updates a #${id} brand` };
   }
 
